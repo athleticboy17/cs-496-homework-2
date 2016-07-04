@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Page View</title>
+</head>
+<body>
+  <a href='/'>HOME</a>
+  {% if img_url %}
+  <img src="{{ img_url }}">
+  {% endif %}
+  <form method="POST" action="{{ edit_url }}" enctype="multipart/form-data">
+   <section>
+    <h1>Order Name: {{ channel.name }}</h1>
+    <!--<input type="hidden" name="key" value="{{ channel.key.urlsafe() }}">
+    <label>Change image?</label>
+    <input type="radio" name="image-action" value="none">No<br>
+    <input type="radio" name="image-action" value="remove">Remove<br>
+    <input type="radio" name="image-action" value="change">Change (select new image below)<br>
+    <label>Upload Icon: </label><input type="file" name="icon"><br>-->
+    <fieldset>
+	  <legend>Pizza Size</legend>
+	    <label>{{ channel.size }}</label>
+	</fieldset>
+	<fieldset>
+      <legend>Pickup Time (in minutes)</legend>
+		<label>{{ channel.time }}</label>
+    </fieldset>
+	{% if classes|length > 0 %}
+    <fieldset>
+      <legend>Additional Toppings</legend>
+      {% for c in classes %}
+      {% if c.checked %}<label> {{ c.name }} </label>{% endif %}
+      {% endfor %}
+    </fieldset>
+    {% endif %}
+    <!--<input type="submit" value="Update">-->
+   </section>
+  </form>
+  <section>
+    <h2>Edit Order</h2>
+	
+    <a href='/edit?key={{ channel.key.urlsafe() }}&type=channel'>{{ channel.name }}</a>
+   
+  </section>
+</body>
+</html>

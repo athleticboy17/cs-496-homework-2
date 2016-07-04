@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>IRC Manager</title>
+</head>
+<body>
+  <form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+    <center><h1>Pizza Order Form</h1></center>
+    <input type="hidden" name="action" value="add_channel">
+    <fieldset>
+      <legend>Order Information</legend>
+      <label>Name on the Order</label>
+      <input type="text" name="channel-name">
+      <br>
+	  <br>
+      <label>Upload Picture to go with Order: </label><input type="file" name="icon">
+      <br>
+	  <br>
+	  <label>Pizza Size</label>
+      <input type="radio" name="pizza-size" value="Medium">Medium<br>
+	  <div class="contentcontainer med left" style="margin-left: 70px;"><input type="radio" name="pizza-size" value="Large">Large</div>
+	  <div class="contentcontainer med left" style="margin-left: 70px;"><input type="radio" name="pizza-size" value="Family">Family</div><br>
+	  <fieldset>
+	   <legend>Enter time for Pickup (in minutes)</legend>
+		 <input type="number" name="pickup" min="30" max="180">
+	  </fieldset>
+	  <br>
+	  <br>
+	  {% if classes|length > 0 %}
+      <fieldset>
+        <legend>Additional Toppings</legend>
+        {% for c in classes %}
+        <label> {{ c.name }} </label><input type="checkbox" name="classes[]" value="{{ c.key }}">
+        {% endfor %}
+      </fieldset>
+      {% endif %}
+      <br><input type="submit" value="Add Order"><br>
+    </fieldset>
+  </form>
+  <form action="/" method="post">
+    <center><h2>Add a Topping Not Listed</h2></center>
+    <input type="hidden" name="action" value="add_class">
+    <fieldset>
+      <legend>Topping</legend>
+      <input type="text" name="class-name">
+      <input type="submit" value="Add">
+    </fieldset>
+  </form>
+  {% if channels|length > 0 %}
+  <section>
+    <center><h2>View Orders</h2></center>
+    {% for ch in channels %}
+      <center><a href='/view?key={{ ch.key }}&type=channel' style="font-size: 25px">{{ ch.name }}</a></center>
+	{% endfor %}
+  </section>
+  {% endif %}
+  {% if message %}
+  <section>
+    <h3>Result</h3>
+    <p>{{ message }}
+  </section>
+  {% endif %}
+</body>
+</html>

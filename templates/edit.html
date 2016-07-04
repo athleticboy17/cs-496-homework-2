@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Edit Order</title>
+</head>
+<body>
+  <a href='/'>HOME</a> <a href='/view?key={{ channel.key.urlsafe() }}&type=channel'>Review Order: {{ channel.name }}</a>
+  {% if img_url %}
+  <img src="{{ img_url }}">
+  {% endif %}
+  <form method="POST" action="{{ edit_url }}" enctype="multipart/form-data">
+    <input type="hidden" name="key" value="{{ channel.key.urlsafe() }}">
+	<h1>Order Name: {{ channel.name }}</h1>
+	<label>Change Order Name</label>
+    <input type="text" name="channel-name"><br><br>
+    <label>Change image?</label>
+    <input type="radio" name="image-action" value="none">No<br>
+    <div class="contentcontainer med left" style="margin-left: 103px;"><input type="radio" name="image-action" value="remove">Remove</div>
+    <div class="contentcontainer med left" style="margin-left: 103px;"><input type="radio" name="image-action" value="change">Change (select new image below)</div><br>
+    <label>Upload Image: </label><input type="file" name="icon"><br>
+    <br>
+	<br>
+	<fieldset>
+	  <legend>Change Pizza Size</legend>
+	  <h3>Current Pizza Size: {{ channel.size }}</h3>
+	  <label>Pizza Size</label>
+      <input type="radio" name="pizza-size" value="Medium">Medium<br>
+	  <div class="contentcontainer med left" style="margin-left: 70px;"><input type="radio" name="pizza-size" value="Large">Large</div>
+	  <div class="contentcontainer med left" style="margin-left: 70px;"><input type="radio" name="pizza-size" value="Family">Family</div><br>
+	</fieldset>
+	<br>
+	<br>
+	<fieldset>
+	  <legend>Change Pickup Time</legend>
+	  <h3>Current Pickup Time (in minutes): {{ channel.time }}</h3>
+	  <input type="number" name="pickup" min="30" max="180">
+	</fieldset>
+	<br>
+	<br>
+	{% if classes|length > 0 %}
+    <fieldset>
+      <legend>Associated Classes</legend>
+      {% for c in classes %}
+      <label> {{ c.name }} </label><input type="checkbox" name="classes[]" value="{{ c.key }}" {% if c.checked %}checked="{{ c.checked }}" {% endif %}>
+      {% endfor %}
+    </fieldset>
+    {% endif %}
+    <input type="submit" value="Update">
+  </form>
+</body>
+</html>
